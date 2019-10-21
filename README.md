@@ -1,6 +1,10 @@
-# Green Gekko [![npm](https://img.shields.io/npm/dm/gekko.svg)]() [![Build Status](https://travis-ci.org/askmike/gekko.png)](https://travis-ci.org/askmike/gekko) [![Build status](https://ci.appveyor.com/api/projects/status/github/askmike/gekko?branch=stable&svg=true)](https://ci.appveyor.com/project/askmike/gekko)
+# Green Gekko 2019 r271 [![npm](https://img.shields.io/npm/dm/gekko.svg)]() [![Build Status](https://travis-ci.org/askmike/gekko.png)](https://travis-ci.org/askmike/gekko) [![Build status](https://ci.appveyor.com/api/projects/status/github/askmike/gekko?branch=stable&svg=true)](https://ci.appveyor.com/project/askmike/gekko)
 
-An Interactive Crypto Trading Bot, askmike/gekko v0.6.8 backwards compatible
+An Interactive Crypto Trading Bot, gekko backwards compatible
+
+| Test your own trading strategies and view backtests in the browser |
+| ------------------------ |
+| ![Green Gekko charts](https://github.com/mark-sch/gekko/raw/develop/screenshots/chart-fullscreen.png) |
 
 | Operate with a Telegram bot | Gekko with Telegram in admin mode |
 | ------------------------ | --------------------------------- |
@@ -8,10 +12,21 @@ An Interactive Crypto Trading Bot, askmike/gekko v0.6.8 backwards compatible
 
 **See screenshots folder**
 
+## New: Gekko Cloud integration
+- Allows the connection of Gekko bot instances all over the world in realtime
+- Gekko Cloud has a fair-use principle, share your trading signals (but keep your strategy private) and get access to foreign strategy signals and candles. Give and take.
+- Write new trading strategies by combining remote advices/candles with local strategy coding. See sample [config](https://raw.githubusercontent.com/mark-sch/gekko/develop/config-cloudstrategy.js) and [strategy](https://raw.githubusercontent.com/mark-sch/gekko/develop/strategies/T5cloudstrat.js) to get started. Run: node gekko.js --config config-cloudstrategy.js
+- Subscribe to fair-use, free or paid Gekko Cloud channels. Signal publishers determine the category and fee.
+- Execute your strategy signals multiple times for friends or family crypto accounts
+- Uses fast TCP socket connections, extended XMPP protocol standards
+
+## Green Gekko Features
+
 - Extended trading-strategy possibilities:
    - Heikin-Ashi candles core support, e.g. use candle.ha.close instead of candle.close inside your strategy
    - set trading amount while giving advice (e.g. buy with 50% of my portfolio)
    - allow market making or market taking order execution options
+   - speedup in the internal event pipeline. Force undelayed advice execution by setting config.tradingAdvisor.fastAdviceEmit: true
    - receive "onCandle" events to allow developers building multi-timeframe strategies.
    - receive "onAdvice" events for plugin-to-plugin communication, e.g. notify the strategy with telegram initiated advices, or create containers with multiple strategies.
 - Core enhancements to write async trading strategies with new async tulip and talib wrappers. The new Green Gekko core is able to wait for async strategies without running into race conditions and allows developers to write multi-timeframe and multi-market strategies.
@@ -50,6 +65,7 @@ An Interactive Crypto Trading Bot, askmike/gekko v0.6.8 backwards compatible
 - [T5mainasync strategy, ETHEUR, 20180101-20181001](https://git.io/fhMJo) / [settings](https://raw.githubusercontent.com/mark-sch/gekko/develop/sample-eth.js) / [source](https://raw.githubusercontent.com/mark-sch/gekko/develop/strategies/T5mainasync.js)
 - [T5multimarket_strategy, ETHEUR, 20180101-20181001](https://git.io/fhMJE) / [source](https://raw.githubusercontent.com/mark-sch/gekko/develop/strategies/T5multimarket.js)
 - [T5multimix strategy, ETHEUR, 20180101-20181231](https://git.io/fhMvD)
+- [T5multimix strategy with T5optimizer, ETHEUR, 20180101-20190901](https://git.io/Jeqas)
 
 ## Getting started
 

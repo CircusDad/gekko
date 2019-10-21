@@ -78,10 +78,10 @@ var Base = function(settings) {
   if(!this.onRemoteCandle)
     this.onRemoteCandle = function() {};
 
-  //if no requiredHistory was provided, set default from tradingAdvisor
-  if (!_.isNumber(this.requiredHistory)){
-    this.requiredHistory = config.tradingAdvisor.historySize;
+  if(_.isNumber(this.requiredHistory)) {
+    log.debug('Ignoring strategy\'s required history, using the "config.tradingAdvisor.historySize" instead.');
   }
+  this.requiredHistory = config.tradingAdvisor.historySize;
 
   if(!config.debug || !this.log)
     this.log = function() {};
@@ -257,6 +257,10 @@ Base.prototype.addIndicator = function(name, type, parameters) {
   return this.indicators[name] = new Indicators[type](parameters);
 
   // some indicators need a price stream, others need full candles
+}
+
+Base.prototype.emitIndicator = function(indicator) {
+  this.emit('indicator', indicator);
 }
 
 Base.prototype.advice = function(newDirection) {

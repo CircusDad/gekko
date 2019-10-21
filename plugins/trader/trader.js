@@ -144,9 +144,11 @@ Trader.prototype.processCandle = function(candle, done) {
 
 Trader.prototype.processAdvice = function(advice) {
   let direction;
+  let configBuyAmount = config[config.tradingAdvisor.method].setBuyAmount !== undefined ? config[config.tradingAdvisor.method].setBuyAmount : '98%';
+  let configSellAmount = config[config.tradingAdvisor.method].setSellAmount !== undefined ? config[config.tradingAdvisor.method].setSellAmount : '100%';
   let setTakerLimit = advice.setTakerLimit !== undefined ? advice.setTakerLimit : 0;
-  let setBuyAmount = advice.setBuyAmount !== undefined ? advice.setBuyAmount : '100%';
-  let setSellAmount = advice.setSellAmount !== undefined ? advice.setSellAmount : '100%';
+  let setBuyAmount = advice.setBuyAmount !== undefined ? advice.setBuyAmount : configBuyAmount;
+  let setSellAmount = advice.setSellAmount !== undefined ? advice.setSellAmount : configSellAmount;
 
   if(advice.recommendation === 'long') {
     direction = 'buy';
@@ -177,7 +179,7 @@ Trader.prototype.processAdvice = function(advice) {
 
   if(direction === 'buy') {
     
-    if(this.exposure > 0.99) {
+    if(this.exposure > 0.97) {
       log.info('NOT buying, already exposed');
       return this.deferredEmit('tradeAborted', {
         id,
@@ -275,7 +277,9 @@ Trader.prototype.createOrder = function(side, amount, advice, id, params) {
     portfolio: this.portfolio,
     balance: this.balance,
     date: advice.date,
-    setTakerLimit: params.setTakerLimit,
+    origin: advice.origin,
+    infomsg: advice.infomsg, 
+    setTakerLimit: advice.setTakerLimit !== undefined ? advice.setTakerLimit : params.setTakerLimit,
     setBuyAmount: params.setBuyAmount,
     setSellAmount: params.setSellAmount
   });
@@ -314,7 +318,8 @@ Trader.prototype.createOrder = function(side, amount, advice, id, params) {
         });
       }
 
-      log.info('[ORDER] summary:', summary);
+      let strSummary = JSON.stringify(summary, null, 2);
+      log.info('[ORDER] summary:', strSummary);
       this.order = null;
       this.sync(() => {
 
@@ -342,6 +347,9 @@ Trader.prototype.createOrder = function(side, amount, advice, id, params) {
           cost,
           amount: summary.amount,
           price: summary.price,
+          origin: advice.origin,
+          infomsg: advice.infomsg, 
+          setTakerLimit: advice.setTakerLimit !== undefined ? advice.setTakerLimit : params.setTakerLimit,
           portfolio: this.portfolio,
           balance: this.balance,
           date: summary.date,

@@ -43,7 +43,7 @@ config.tradingAdvisor = {
 config.T5mainasync = {
   setTakerLimit: '1%',
   setSellAmount: '100%',
-  setBuyAmount: '99%',
+  setBuyAmount: '98%',
   MACD: {
     optInFastPeriod: 12,
     optInSlowPeriod: 26,
@@ -68,6 +68,7 @@ config.T5mainasync = {
     RSIlow: 44,
     MACDhigh: 0,
     MACDlow: 0.88,
+    TEMAmin: 100.065,
     persistance: 1
   }
 };
